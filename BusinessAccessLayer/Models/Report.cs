@@ -9,12 +9,12 @@
      
      public string Email_Id { get; set; }   
      
-     public int Mobile_Number { get; set; }
+     public long Mobile_Number { get; set; }
      public string Doctor_name { get; set; }
      public string Diagnosis { get; set; }
 
      public string Result { get; set; }
-     public int Nomination_details_id { get; set; }
+     public long Nomination_details_id { get; set; }
 
 
 

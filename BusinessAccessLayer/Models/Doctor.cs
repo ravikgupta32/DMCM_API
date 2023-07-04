@@ -8,7 +8,7 @@
         public DateTime Dob { get; set; }
         public string? Email_id { get; set; }
         public string? License { get; set; }
-        public string Specialization { get; set; }
+        public string? Specialization { get; set; }
         public long  Mobile { get; set; }
     }
 }
