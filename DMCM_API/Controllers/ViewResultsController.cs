@@ -5,6 +5,7 @@ using System.Data.Common;
 using Microsoft.Data.SqlClient;
 using DataAccessLayer.DataAccess;
 using DMCM_API.Models;
+using DataAccessLayer.Models;
 
 namespace Diagonstic_Medicare_Centre_Managment.Controllers
 {

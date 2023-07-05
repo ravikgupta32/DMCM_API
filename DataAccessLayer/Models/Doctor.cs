@@ -1,4 +1,4 @@
-﻿namespace DMCM_API.Models
+﻿namespace DataAccessLayer.Models
 {
     public class Doctor
     {
@@ -9,6 +9,6 @@
         public string? Email_id { get; set; }
         public string? License { get; set; }
         public string? Specialization { get; set; }
-        public long  Mobile { get; set; }
+        public long Mobile { get; set; }
     }
 }

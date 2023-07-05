@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using DataAccessLayer.DataAccess;
+using DataAccessLayer.Models;
 using DMCM_API.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -14,7 +15,7 @@ namespace Diagonstic_Medicare_Centre_Managment.Controllers
     {
         CustomerRepository customerrp = new CustomerRepository();
         DoctorRepository doctorrp = new DoctorRepository();
-
+       
         [HttpGet("/Customer")]
         public IActionResult GetCustomerDetails()
         {
