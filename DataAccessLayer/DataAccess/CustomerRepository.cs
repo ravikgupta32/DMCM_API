@@ -1,4 +1,4 @@
-﻿using DMCM_API.Models;
+﻿using DataAccessLayer.Models;
 using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
@@ -18,8 +18,8 @@ namespace DataAccessLayer.DataAccess
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
-                string query = "INSERT INTO Customer_Details (User_id,Password, Name, Email_id, Dob,Mobile) " +
-                "VALUES (@User_id,@Password,@Name, @Email_id, @Dob, @Mobile)";
+                string query = "INSERT INTO Customer_Details (User_id,Password, Name, Email_id, Dob,Mobile,Report_id,Nomination_details_id,Agent_id) " +
+                "VALUES (@User_id,@Password,@Name, @Email_id, @Dob, @Mobile,@Report_id,@Nomination_details_id,@Agent_id)";
 
 
 
@@ -29,8 +29,11 @@ namespace DataAccessLayer.DataAccess
                 command.Parameters.AddWithValue("@Name", customer.Name);
                 command.Parameters.AddWithValue("@Email_id", customer.Email);
                 command.Parameters.AddWithValue("@Dob", customer.Dob);
-                
-                
+                command.Parameters.AddWithValue("@Report_id", customer.Report_id);
+                command.Parameters.AddWithValue("@Nomination_details_id", customer.Nomination_details_id);
+                command.Parameters.AddWithValue("@Agent_id", customer.Agent_id);
+
+
 
                 command.ExecuteNonQuery();
             }

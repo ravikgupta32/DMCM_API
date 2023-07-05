@@ -1,9 +1,6 @@
 ﻿
-using System.Text;
 
-using System.Web.Mvc;
-using DMCM_API;
-using DMCM_API.Models;
+using DataAccessLayer.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 

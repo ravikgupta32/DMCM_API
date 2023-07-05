@@ -1,7 +1,6 @@
 ﻿using Dapper;
 using DataAccessLayer.DataAccess;
 using DataAccessLayer.Models;
-using DMCM_API.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
