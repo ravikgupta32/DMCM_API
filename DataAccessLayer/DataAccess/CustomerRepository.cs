@@ -1,25 +1,20 @@
-﻿using DataAccessLayer.Models;
+﻿using DataAccessLayer.Contracts;
+using DataAccessLayer.Models;
 using Microsoft.Data.SqlClient;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web.Helpers;
 
 namespace DataAccessLayer.DataAccess
 {
-    public class CustomerRepository
+    public class CustomerRepository:ICustomerRepository
     {
         private readonly string connectionString = "Data Source=LTIN196430\\SQLEXPRESS;Initial Catalog=dmcm;Integrated Security=True;TrustServerCertificate=True";
 
-        public Customer AddCustomer(Customer customer)
+        public string AddCustomer(Customer customer)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
-                string query = "INSERT INTO Customer_Details (User_id,Password, Name, Email_id, Dob,Mobile,Report_id,Nomination_details_id,Agent_id) " +
-                "VALUES (@User_id,@Password,@Name, @Email_id, @Dob, @Mobile,@Report_id,@Nomination_details_id,@Agent_id)";
+                string query = "INSERT INTO Customer_Details (User_id,Password, Name, Email_id, Dob,Report_id,Nomination_details_id,Agent_id) " +
+                "VALUES (@User_id,@Password,@Name, @Email_id, @Dob,@Report_id,@Nomination_details_id,@Agent_id)";
 
 
 
@@ -37,7 +32,7 @@ namespace DataAccessLayer.DataAccess
 
                 command.ExecuteNonQuery();
             }
-            return customer;
+            return "Added customer successfully";
         }
         public List<Customer> GetCustomerDetails()
         {

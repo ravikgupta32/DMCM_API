@@ -1,4 +1,5 @@
 ﻿
+using BusinessAccessLayer.Services.healthplan;
 using DataAccessLayer.DataAccess;
 using DataAccessLayer.Models;
 using Microsoft.AspNetCore.Http;
@@ -11,17 +12,21 @@ namespace Diagonstic_Medicare_Centre_Managment.Controllers
 
     public class HealthPlanController : ControllerBase
     {
-        HealthPlanRepository hepo = new HealthPlanRepository();
+        public readonly IServiceHealthPlan _iHealthPlan;
+        public HealthPlanController(IServiceHealthPlan iHealthPlan) 
+        { 
+            _iHealthPlan = iHealthPlan;
+        }
+
         [HttpGet("/GetPlanNames")]
-        public IActionResult GetPlanName()
+        public List<string> GetPlanName()
         {
-            List<string> planNames = hepo.GetPlanNames();
-            return Ok(planNames);
+            return _iHealthPlan.GetPlanNames();
+           
         }
         [HttpGet("/GetPlanDetails")]
-        public IActionResult GetPlanDetails(string name) { 
-            List<HealthPlan> health = hepo.GetHealthPlanDetails(name);
-            return Ok(health);
+        public List<HealthPlan> GetPlanDetails(string name) { 
+            return _iHealthPlan.GetHealthPlanDetails(name);
         }
     }
 }

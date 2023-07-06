@@ -1,4 +1,5 @@
 ﻿
+using BusinessAccessLayer.Services.insurance;
 using DataAccessLayer.DataAccess;
 using DataAccessLayer.Models;
 using Microsoft.AspNetCore.Http;
@@ -10,18 +11,21 @@ namespace Diagonstic_Medicare_Centre_Managment.Controllers
     [ApiController]
     public class InsuranceController : ControllerBase
     {
-        InsuranceRepository insurancerp = new InsuranceRepository();
-        [HttpGet("/GetAgentDetails")]
-        public IActionResult GetAgentDetails()
+        public readonly IServiceInsurance _serviceInsurance;
+        public InsuranceController(IServiceInsurance serviceInsurance)
         {
-            List<Agent> details = insurancerp.GetAgentDetails();
-            return Ok(details);
+            _serviceInsurance = serviceInsurance;
+        }
+
+        [HttpGet("/GetAgentDetails")]
+        public List<Agent> GetAgentDetails()
+        {
+            return _serviceInsurance.GetAgentDetails(); 
         }
         [HttpPost("/SubmitNominationDetails")]
-        public IActionResult SubmitNominationDetails(Nomination nomination) 
+        public void SubmitNominationDetails(Nomination nomination) 
         { 
-            insurancerp.InsertNomination(nomination);
-            return Ok("Nomination Details Submitted");
+           _serviceInsurance.InsertNomination(nomination);
         }
     }
 }

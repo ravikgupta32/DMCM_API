@@ -1,4 +1,5 @@
 ﻿
+using DataAccessLayer.Contracts;
 using DataAccessLayer.Models;
 using Microsoft.Data.SqlClient;
 
@@ -6,7 +7,7 @@ using Microsoft.Data.SqlClient;
 
 namespace DataAccessLayer.DataAccess
 {
-    public class HealthPlanRepository
+    public class HealthPlanRepository:IHealthPlanRepository
     {
         private readonly string connectionString = "Data Source=LTIN196430\\SQLEXPRESS;Initial Catalog=dmcm;Integrated Security=True;TrustServerCertificate=True";
         public List<string> GetPlanNames() {

@@ -1,11 +1,12 @@
 ﻿
+using DataAccessLayer.Contracts;
 using DataAccessLayer.Models;
 using Microsoft.Data.SqlClient;
 
 
 namespace DataAccessLayer.DataAccess
 {
-    public class InsuranceRepository
+    public class InsuranceRepository:IInsuranceRepository
     {
         private readonly string connectionString = "Data Source=LTIN196430\\SQLEXPRESS;Initial Catalog=dmcm;Integrated Security=True;TrustServerCertificate=True";
         public List<Agent> GetAgentDetails()

@@ -1,4 +1,5 @@
 ﻿
+using DataAccessLayer.Contracts;
 using DataAccessLayer.Models;
 using Microsoft.Data.SqlClient;
 using System;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 namespace DataAccessLayer.DataAccess
 {
     
-    public class ResultRepository
+    public class ResultRepository:IResultRepository
     {
         private readonly string connectionString = "Data Source=LTIN196430\\SQLEXPRESS;Initial Catalog=dmcm;Integrated Security=True;TrustServerCertificate=True";
         public List<Report> ViewReport() {

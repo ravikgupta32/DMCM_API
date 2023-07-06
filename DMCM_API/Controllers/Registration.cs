@@ -1,4 +1,6 @@
-﻿using Dapper;
+﻿using BusinessAccessLayer.Services.customer;
+using BusinessAccessLayer.Services.doctor;
+using Dapper;
 using DataAccessLayer.DataAccess;
 using DataAccessLayer.Models;
 using Microsoft.AspNetCore.Http;
@@ -12,34 +14,38 @@ namespace Diagonstic_Medicare_Centre_Managment.Controllers
     [ApiController]
     public class Registration : ControllerBase
     {
-        CustomerRepository customerrp = new CustomerRepository();
-        DoctorRepository doctorrp = new DoctorRepository();
-       
-        [HttpGet("/Customer")]
-        public IActionResult GetCustomerDetails()
+        public IServiceCustomer _iServiceCustomer;
+        public IServiceDoctor _iDoctor;
+        public Registration(IServiceCustomer iServiceCustomer, IServiceDoctor iDoctor)
         {
-            List<Customer> customerdetails = customerrp.GetCustomerDetails();
-            return Ok(customerdetails);
-        }
-        [HttpGet("/Doctor")]
-        public IActionResult GetDoctorDetails()
-        {
-            List<Doctor> doc_details = doctorrp.GetDoctorDetails();
-            return Ok(doc_details);
-        }
-        [HttpPost("/SubmitCustomerDetails")]
-        public IActionResult SubmitCustomerDetails(Customer customer)
-        {
-            customerrp.AddCustomer(customer);
-            return Ok("Successfully Added Customer");
-        }
-        [HttpPost("/SubmitDoctorDetails")]
-        public IActionResult SubmitDocotrDetails(Doctor doctor)
-        {
-            doctorrp.AddDoctor(doctor);
-            return Ok("Successfully Added Doctor");
+            _iServiceCustomer = iServiceCustomer;
+            _iDoctor = iDoctor;
         }
 
+
+
+        [HttpGet("/Customer")]
+        public List<Customer> GetCustomerDetails()
+        {
+            return _iServiceCustomer.GetCustomerDetail();
+
+        }
+        [HttpGet("/Doctor")]
+        public List<Doctor> GetDoctorDetails()
+        {
+            return _iDoctor.GetDoctorDetails();
+
+        }
+        [HttpPost("/SubmitCustomerDetails")]
+        public string SubmitCustomerDetails(Customer customer)
+        {
+            return _iServiceCustomer.AddCustomer(customer);
+        }
+        [HttpPost("/SubmitDoctorDetails")]
+        public Doctor SubmitDoctorDetails(Doctor doctor)
+        {
+            return _iDoctor.AddDoctor(doctor);
+        }
     }
 }
 

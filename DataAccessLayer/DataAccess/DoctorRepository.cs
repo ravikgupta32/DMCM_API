@@ -1,12 +1,13 @@
 ﻿
 
+using DataAccessLayer.Contracts;
 using DataAccessLayer.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 
 namespace DataAccessLayer.DataAccess
 {
-    public class DoctorRepository
+    public class DoctorRepository: IDoctorRepository
     {
         private readonly string connectionString = "Data Source=LTIN196430\\SQLEXPRESS;Initial Catalog=dmcm;Integrated Security=True;TrustServerCertificate=True";
          public Doctor AddDoctor(Doctor doctor) {
@@ -14,7 +15,7 @@ namespace DataAccessLayer.DataAccess
                 {
                     connection.Open();
                     string query = "INSERT INTO Doctor_Details (Doctor_id,Password, Name,Dob, Email_id, License, Specialization, Mobile) " +
-                    "VALUES (@Doctor_id,@Password,@Name, @Email_id, @License, @Specialization, @Mobile)";
+                    "VALUES (@Doctor_id,@Password,@Name,@Dob, @Email_id, @License, @Specialization, @Mobile)";
 
 
 
