@@ -2,8 +2,10 @@
 using BusinessAccessLayer.Services.healthplan;
 using DataAccessLayer.DataAccess;
 using DataAccessLayer.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 
 namespace Diagonstic_Medicare_Centre_Managment.Controllers
 {
@@ -17,13 +19,14 @@ namespace Diagonstic_Medicare_Centre_Managment.Controllers
         { 
             _iHealthPlan = iHealthPlan;
         }
-
+        [Authorize(Roles = "Admin,Customer")]
         [HttpGet("/GetPlanNames")]
         public List<string> GetPlanName()
         {
             return _iHealthPlan.GetPlanNames();
            
         }
+        [Authorize(Roles = "Admin,Customer")]
         [HttpGet("/GetPlanDetails")]
         public List<HealthPlan> GetPlanDetails(string name) { 
             return _iHealthPlan.GetHealthPlanDetails(name);

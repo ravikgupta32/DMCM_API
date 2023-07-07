@@ -2,8 +2,10 @@
 using BusinessAccessLayer.Services.insurance;
 using DataAccessLayer.DataAccess;
 using DataAccessLayer.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 
 namespace Diagonstic_Medicare_Centre_Managment.Controllers
 {
@@ -16,12 +18,13 @@ namespace Diagonstic_Medicare_Centre_Managment.Controllers
         {
             _serviceInsurance = serviceInsurance;
         }
-
+        [Authorize(Roles = "Admin,Customer")]
         [HttpGet("/GetAgentDetails")]
         public List<Agent> GetAgentDetails()
         {
             return _serviceInsurance.GetAgentDetails(); 
         }
+        [Authorize(Roles = "Admin,Customer")]
         [HttpPost("/SubmitNominationDetails")]
         public void SubmitNominationDetails(Nomination nomination) 
         { 

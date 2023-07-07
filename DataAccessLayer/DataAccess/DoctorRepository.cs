@@ -4,13 +4,14 @@ using DataAccessLayer.Contracts;
 using DataAccessLayer.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
 
 namespace DataAccessLayer.DataAccess
 {
     public class DoctorRepository: IDoctorRepository
     {
         private readonly string connectionString = "Data Source=LTIN196430\\SQLEXPRESS;Initial Catalog=dmcm;Integrated Security=True;TrustServerCertificate=True";
-         public Doctor AddDoctor(Doctor doctor) {
+        public Doctor AddDoctor(Doctor doctor) {
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     connection.Open();

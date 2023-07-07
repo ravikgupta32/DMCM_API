@@ -12,7 +12,6 @@ namespace DataAccessLayer.DataAccess
     public class MedicareServiceRepository:IMedicareServiceRepository
     {
         private readonly string connectionString = "Data Source=LTIN196430\\SQLEXPRESS;Initial Catalog=dmcm;Integrated Security=True;TrustServerCertificate=True";
-
         public List<string> GetPlanNames()
         {
             List<string> plan_names = new List<string>();

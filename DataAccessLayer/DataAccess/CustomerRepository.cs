@@ -1,13 +1,14 @@
 ﻿using DataAccessLayer.Contracts;
 using DataAccessLayer.Models;
 using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
 
 namespace DataAccessLayer.DataAccess
 {
     public class CustomerRepository:ICustomerRepository
     {
-        private readonly string connectionString = "Data Source=LTIN196430\\SQLEXPRESS;Initial Catalog=dmcm;Integrated Security=True;TrustServerCertificate=True";
 
+        private readonly string connectionString = "Data Source=LTIN196430\\SQLEXPRESS;Initial Catalog=dmcm;Integrated Security=True;TrustServerCertificate=True";
         public string AddCustomer(Customer customer)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))

@@ -8,9 +8,13 @@ using DataAccessLayer.DataAccess;
 using DataAccessLayer.Models;
 using BusinessAccessLayer.Services.result;
 using DataAccessLayer.Contracts;
+using System.Data;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace Diagonstic_Medicare_Centre_Managment.Controllers
 {
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
     [ApiController]
     public class ViewResultsController : ControllerBase
@@ -20,7 +24,7 @@ namespace Diagonstic_Medicare_Centre_Managment.Controllers
         {
             _iServiceResult = iServiceResult;
         }
-
+        [Authorize(Roles = "Admin,Customer")]
         [HttpGet("/ViewReports")]
         public List<Report> GetResults()
         {
