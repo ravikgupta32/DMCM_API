@@ -10,6 +10,5 @@ namespace DataAccessLayer.Contracts
     public interface ICustomerRepository
     {
         public string AddCustomer(Customer customer);
-        public List<Customer> GetCustomerDetails();
     }
 }

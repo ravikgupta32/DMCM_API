@@ -18,13 +18,13 @@ namespace Diagonstic_Medicare_Centre_Managment.Controllers
         {
             _serviceInsurance = serviceInsurance;
         }
-        [Authorize(Roles = "Admin,Customer")]
+        [Authorize(Roles = "Customer")]
         [HttpGet("/GetAgentDetails")]
         public List<Agent> GetAgentDetails()
         {
             return _serviceInsurance.GetAgentDetails(); 
         }
-        [Authorize(Roles = "Admin,Customer")]
+        [Authorize(Roles = "Customer")]
         [HttpPost("/SubmitNominationDetails")]
         public void SubmitNominationDetails(Nomination nomination) 
         { 

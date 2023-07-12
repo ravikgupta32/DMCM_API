@@ -10,8 +10,9 @@ namespace DataAccessLayer.Contracts.Contracts
     public  interface ILoginRepository
     {
         public string GetUserRole(string userId);
-        public bool VerifyUser(string userId, string password);
-       
+        public bool VerifyUserInCustomerTable(string userId, string password);
+        public bool VerifyUserInDoctorTable(string userId, string password);
+
         public string GenerateJwtToken(string userId,string role);
 
 

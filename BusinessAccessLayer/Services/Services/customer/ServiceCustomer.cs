@@ -29,17 +29,7 @@ namespace BusinessAccessLayer.Services.customer
             }
         }
 
-        public List<Customer> GetCustomerDetail()
-        {
-            try
-            {
-                return _icustomerRepository.GetCustomerDetails().ToList();
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
+       
     }
 
 

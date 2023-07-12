@@ -2,22 +2,30 @@
 using DataAccessLayer.Contracts;
 using DataAccessLayer.Models;
 using Microsoft.Data.SqlClient;
-
+using Microsoft.Extensions.Configuration;
+using System.Data;
 
 namespace DataAccessLayer.DataAccess
 {
     public class InsuranceRepository:IInsuranceRepository
     {
-        private readonly string connectionString = "Data Source=LTIN196430\\SQLEXPRESS;Initial Catalog=dmcm;Integrated Security=True;TrustServerCertificate=True";
+        private readonly string connectionString;
+        public InsuranceRepository(IConfiguration configuration) 
+        {
+            connectionString = configuration.GetConnectionString("DefaultConnection");
+
+        }
         public List<Agent> GetAgentDetails()
         {
             List<Agent> agents = new List<Agent>();
             using (var connection = new SqlConnection(connectionString))
             {
-                string query = "SELECT * FROM Insurance_Agent";
-                using (SqlCommand command = new SqlCommand(query, connection))
-                {
-                    connection.Open();
+                connection.Open();
+                SqlCommand command = new SqlCommand("GetInsuranceAgent", connection);
+                command.CommandType = CommandType.StoredProcedure;
+                
+                    
+                    
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
                         while (reader.Read())
@@ -27,7 +35,7 @@ namespace DataAccessLayer.DataAccess
                                 Agent_id = reader["Agent_Id"].ToString(),
                                 Agent_name = reader["Agent_name"].ToString(),
                                 Street_address = reader["Street_address"].ToString(),
-                                Mobile_number = Convert.ToInt64(reader["Mobile_number"]),
+                                Mobile_number =reader["Mobile_number"].ToString(),
                                 City = reader["City"].ToString(),
                                 State = reader["State"].ToString(),
                                 Pincode = Convert.ToInt32(reader["Pincode"])
@@ -36,18 +44,17 @@ namespace DataAccessLayer.DataAccess
                         }
                     }
                     return agents;
-                }
+                
             }
         }
         public void InsertNomination(Nomination nomination)
         {
             using (var connection = new SqlConnection(connectionString))
             {
-                string query = "INSERT INTO Nomination_Details (Name, DOB, Email_id, Mobile_number, Country,State,City_Name, Pin_code, Healthplan_id) " +
-                               "VALUES (@Name, @DOB, @Email_id, @Mobile_number, @Country,@State, @City_Name, @Pin_code, @Healthplan_id)";
 
-                using (SqlCommand command = new SqlCommand(query, connection))
-                {
+                SqlCommand command = new SqlCommand("InsertNominationDetails", connection);
+                command.CommandType = CommandType.StoredProcedure;
+                
                     command.Parameters.AddWithValue("@Name", nomination.Name);
                     command.Parameters.AddWithValue("@DOB", nomination.DOB);
                     command.Parameters.AddWithValue("@Email_id", nomination.Email_id);
@@ -60,7 +67,7 @@ namespace DataAccessLayer.DataAccess
 
                     connection.Open();
                     command.ExecuteNonQuery();
-                }
+                
             }
         }
 

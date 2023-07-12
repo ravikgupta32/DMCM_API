@@ -2,21 +2,26 @@
 using DataAccessLayer.Contracts;
 using DataAccessLayer.Models;
 using Microsoft.Data.SqlClient;
-
-
+using Microsoft.Extensions.Configuration;
+using System.Data;
 
 namespace DataAccessLayer.DataAccess
 {
     public class HealthPlanRepository:IHealthPlanRepository
     {
-        private readonly string connectionString = "Data Source=LTIN196430\\SQLEXPRESS;Initial Catalog=dmcm;Integrated Security=True;TrustServerCertificate=True";
+        private readonly string connectionString;
+        public HealthPlanRepository(IConfiguration configuration) 
+        {
+            connectionString = configuration.GetConnectionString("DefaultConnection");
+        }
         public List<string> GetPlanNames() {
             List <string> plan_names = new List<string>();
             using(var connection = new SqlConnection(connectionString))
-            { 
-                string query = "Select HealthPlan_name from HealthPlan_Details";
-                using (SqlCommand command = new SqlCommand(query, connection)) {
-                    connection.Open();
+            {
+                connection.Open();
+                SqlCommand command = new SqlCommand("GetHealthPlanNames", connection);
+                command.CommandType = CommandType.StoredProcedure;
+
                     using(SqlDataReader reader = command.ExecuteReader())
                     {
                         while (reader.Read())
@@ -25,7 +30,7 @@ namespace DataAccessLayer.DataAccess
                             plan_names.Add(name);
                         }
                        
-                    }
+                    
                 }
                 return plan_names;
             }
@@ -36,11 +41,10 @@ namespace DataAccessLayer.DataAccess
             List<HealthPlan> plandetail = new List<HealthPlan>();
             using (var connection = new SqlConnection(connectionString))
             {
-                string query = "SELECT * FROM HealthPlan_Details WHERE HealthPlan_name = @PlanName";
-                using (SqlCommand command = new SqlCommand(query, connection))
-                {
-                    command.Parameters.AddWithValue("@PlanName", PlanName);  
-                    connection.Open();
+                connection.Open();
+                SqlCommand command = new SqlCommand("GetHealthPlanDetails", connection);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@PlanName", PlanName);  
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
                         while (reader.Read())
@@ -58,7 +62,7 @@ namespace DataAccessLayer.DataAccess
                     return plandetail;
                 }
             }
-        }
+        
      
 
 

@@ -30,29 +30,13 @@ namespace Diagonstic_Medicare_Centre_Managment.Controllers
             _iDoctor = iDoctor;
         }
 
-
-        [Authorize(Roles = "Admin")]
-        [HttpGet("/Customer")]
-        public List<Customer> GetCustomerDetails()
-        {
-            return _iServiceCustomer.GetCustomerDetail();
-
-        }
-
-        [Authorize(Roles = "Admin,Customer")]
-        [HttpGet("/Doctor")]
-        public List<Doctor> GetDoctorDetails()
-        {
-            return _iDoctor.GetDoctorDetails();
-
-        }
-        [Authorize(Roles = "Admin,Customer")]
+        [Authorize(Roles = "Customer")]
         [HttpPost("/SubmitCustomerDetails")]
         public string SubmitCustomerDetails(Customer customer)
         {
             return _iServiceCustomer.AddCustomer(customer);
         }
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Doctor")]
         [HttpPost("/SubmitDoctorDetails")]
         public Doctor SubmitDoctorDetails(Doctor doctor)
         {

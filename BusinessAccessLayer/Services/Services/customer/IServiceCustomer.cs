@@ -10,6 +10,6 @@ namespace BusinessAccessLayer.Services.customer
     public interface IServiceCustomer
     {
         public string AddCustomer(Customer customer);
-        public List<Customer> GetCustomerDetail();
+       
     }
 }

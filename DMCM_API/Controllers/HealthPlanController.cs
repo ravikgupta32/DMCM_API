@@ -19,14 +19,14 @@ namespace Diagonstic_Medicare_Centre_Managment.Controllers
         { 
             _iHealthPlan = iHealthPlan;
         }
-        [Authorize(Roles = "Admin,Customer")]
+        [Authorize(Roles = "Customer")]
         [HttpGet("/GetPlanNames")]
         public List<string> GetPlanName()
         {
             return _iHealthPlan.GetPlanNames();
            
         }
-        [Authorize(Roles = "Admin,Customer")]
+        [Authorize(Roles = "Customer")]
         [HttpGet("/GetPlanDetails")]
         public List<HealthPlan> GetPlanDetails(string name) { 
             return _iHealthPlan.GetHealthPlanDetails(name);

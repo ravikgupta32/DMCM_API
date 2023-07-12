@@ -2,36 +2,32 @@
 using DataAccessLayer.Contracts;
 using DataAccessLayer.Models;
 using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data;
 
 namespace DataAccessLayer.DataAccess
 {
     
     public class ResultRepository:IResultRepository
     {
-        private readonly string connectionString = "Data Source=LTIN196430\\SQLEXPRESS;Initial Catalog=dmcm;Integrated Security=True;TrustServerCertificate=True";
+        private readonly string connectionString;
+        public ResultRepository(IConfiguration configuration) 
+        {
+            connectionString = configuration.GetConnectionString("DefaultConnection");
+        }
         public List<Report> ViewReport() {
             List<Report> reports = new List<Report>();
-
-
-
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string query = "SELECT * FROM view_reports";
-
-
-
-                using (SqlCommand command = new SqlCommand(query, connection))
-                {
-                    connection.Open();
-
-
-
-                    using (SqlDataReader reader = command.ExecuteReader())
+               connection.Open();
+                SqlCommand command = new SqlCommand("ViewReports", connection);
+                command.CommandType = CommandType.StoredProcedure;
+                using (SqlDataReader reader = command.ExecuteReader())
                     {
                         while (reader.Read())
                         {
@@ -45,7 +41,7 @@ namespace DataAccessLayer.DataAccess
                                 Doctor_name = reader["Doctor_Name"].ToString(),
                                 Diagnosis = reader["Diagnosis"].ToString(),
                                 Result = reader["Result"].ToString(),
-                                Nomination_details_id = Convert.ToInt64(reader["Nomination_details_id"])
+                                Nomination_details_id = reader["Nomination_details_id"].ToString()
                             };
 
 
@@ -53,11 +49,8 @@ namespace DataAccessLayer.DataAccess
                             reports.Add(report);
                         }
                     }
-                }
+                
             }
-
-
-
             return (reports);
 
         }

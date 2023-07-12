@@ -1,7 +1,8 @@
 ﻿using DataAccessLayer.Contracts.Contracts;
 using DataAccessLayer.Models;
 using Microsoft.Data.SqlClient;
-using System;
+using Microsoft.Extensions.Configuration;
+using System.Data;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,16 +12,22 @@ namespace DataAccessLayer.DataAccess
 {
     public class MedicareServiceRepository:IMedicareServiceRepository
     {
-        private readonly string connectionString = "Data Source=LTIN196430\\SQLEXPRESS;Initial Catalog=dmcm;Integrated Security=True;TrustServerCertificate=True";
+        private readonly string connectionString;
+
+        public MedicareServiceRepository(IConfiguration configuration) 
+        {
+            connectionString = configuration.GetConnectionString("DefaultConnection");
+        }
         public List<string> GetPlanNames()
         {
             List<string> plan_names = new List<string>();
             using (var connection = new SqlConnection(connectionString))
             {
-                string query = "Select Service_Name from medicareservice_details";
-                using (SqlCommand command = new SqlCommand(query, connection))
-                {
-                    connection.Open();
+                connection.Open();
+
+                SqlCommand command = new SqlCommand("GetMedicareServiceNames", connection);
+                command.CommandType = CommandType.StoredProcedure;
+                
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
                         while (reader.Read())
@@ -30,7 +37,7 @@ namespace DataAccessLayer.DataAccess
                         }
 
                     }
-                }
+                
                 
             }
             return plan_names;
@@ -40,11 +47,10 @@ namespace DataAccessLayer.DataAccess
             List<medservice> plandetail = new List<medservice>();
             using (var connection = new SqlConnection(connectionString))
             {
-                string query = "SELECT * FROM medicareservice_details WHERE Service_Name = @PlanName";
-                using (SqlCommand command = new SqlCommand(query, connection))
-                {
-                    command.Parameters.AddWithValue("@PlanName", planName);
-                    connection.Open();
+                connection.Open();
+                SqlCommand command = new SqlCommand("GetMedicareServiceDetails", connection);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@PlanName", planName);
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
                         while (reader.Read())
@@ -61,7 +67,7 @@ namespace DataAccessLayer.DataAccess
                         }
                     }
                     return plandetail;
-                }
+                
             }
         }
     }

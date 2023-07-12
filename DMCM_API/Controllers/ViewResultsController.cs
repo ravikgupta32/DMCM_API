@@ -24,7 +24,7 @@ namespace Diagonstic_Medicare_Centre_Managment.Controllers
         {
             _iServiceResult = iServiceResult;
         }
-        [Authorize(Roles = "Admin,Customer")]
+        [Authorize(Roles = "Doctor,Customer")]
         [HttpGet("/ViewReports")]
         public List<Report> GetResults()
         {

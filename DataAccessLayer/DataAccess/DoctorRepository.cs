@@ -5,22 +5,25 @@ using DataAccessLayer.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
+using System.Data;
 
 namespace DataAccessLayer.DataAccess
 {
     public class DoctorRepository: IDoctorRepository
     {
-        private readonly string connectionString = "Data Source=LTIN196430\\SQLEXPRESS;Initial Catalog=dmcm;Integrated Security=True;TrustServerCertificate=True";
+        private readonly string connectionString;
+        public DoctorRepository(IConfiguration configuration)
+        {
+            connectionString = configuration.GetConnectionString("DefaultConnection");
+        }
+        
+            
         public Doctor AddDoctor(Doctor doctor) {
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
-                    connection.Open();
-                    string query = "INSERT INTO Doctor_Details (Doctor_id,Password, Name,Dob, Email_id, License, Specialization, Mobile) " +
-                    "VALUES (@Doctor_id,@Password,@Name,@Dob, @Email_id, @License, @Specialization, @Mobile)";
-
-
-
-                    SqlCommand command = new SqlCommand(query, connection);
+                    connection.Open();                 
+                    SqlCommand command = new SqlCommand("InsertDoctorDetails", connection);
+                    command.CommandType = CommandType.StoredProcedure;
                     command.Parameters.AddWithValue("@Doctor_id", doctor.Doctor_id);
                     command.Parameters.AddWithValue("@Password", doctor.Password);
                     command.Parameters.AddWithValue("@Name", doctor.Name);
@@ -55,7 +58,7 @@ namespace DataAccessLayer.DataAccess
                                 Name = reader["Name"].ToString(),
                                 Dob = Convert.ToDateTime(reader["Dob"]),
                                 Email_id = reader["Email_Id"].ToString(),
-                                Mobile = Convert.ToInt64(reader["Mobile"]),
+                                Mobile =reader["Mobile"].ToString(),
                                 License = reader["License"].ToString(),
                                 Specialization = reader["Specialization"].ToString(),
 

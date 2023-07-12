@@ -14,16 +14,19 @@ namespace DataAccessLayer.DataAccess
         
         
         public IConfiguration _config;
+        private readonly string connectionString;
         public LoginRepository(IConfiguration config) { 
             _config = config;
+            connectionString = _config.GetConnectionString("DefaultConnection");
         }
-        private readonly string connectionString = "Data Source=LTIN196430\\SQLEXPRESS;Initial Catalog=dmcm;Integrated Security=True;TrustServerCertificate=True";
+       
+
         public string GetUserRole(string userId)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open(); // Get the user role from the databasestring
-                string query = "SELECT Role FROM users WHERE UserId = @UserId";
+                string query = "SELECT 'Customer' as Role FROM Customer_details WHERE User_Id = @UserId UNION ALL SELECT 'Doctor'  as Role from doctor_details where doctor_id = @UserId";
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@UserId", userId);
@@ -34,14 +37,34 @@ namespace DataAccessLayer.DataAccess
             }
         }
         
-        public bool VerifyUser(string userId, string password)
+        public bool VerifyUserInCustomerTable(string userId, string password)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
 
                 // Check if the user exists in the database
-                string query = "SELECT COUNT(*) FROM users WHERE UserId = @UserId AND Password = @Password";
+                string query = "SELECT COUNT(*) FROM Customer_details WHERE User_Id = @UserId AND Password = @Password";
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@UserId", userId);
+                    command.Parameters.AddWithValue("@Password", password);
+
+                    int count = (int)command.ExecuteScalar();
+
+                    return count > 0;
+                }
+            }
+        }
+
+        public bool VerifyUserInDoctorTable(string userId, string password)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                // Check if the user exists in the database
+                string query = "SELECT COUNT(*) FROM doctor_details WHERE doctor_id = @UserId AND Password = @Password";
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@UserId", userId);

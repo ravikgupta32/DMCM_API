@@ -18,7 +18,7 @@ namespace BusinessAccessLayer.Services.Services.Login
         public string Authenticate(string userId, string password)
         {
                 // Verify the user from the users table
-                bool isUserValid = _iLoginRepository.VerifyUser(userId, password);
+                bool isUserValid = _iLoginRepository.VerifyUserInCustomerTable(userId,password)|| _iLoginRepository.VerifyUserInDoctorTable(userId,password);
 
                 if (!isUserValid)
                 {
