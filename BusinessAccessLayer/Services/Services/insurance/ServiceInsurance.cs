@@ -17,19 +17,11 @@ namespace BusinessAccessLayer.Services.insurance
         }
         public List<Agent> GetAgentDetails() 
         {
-            try {
                 return _iInsuranceRepository.GetAgentDetails();
-            }
-            catch (Exception) { throw; }
         }
         public void InsertNomination(Nomination nomination) 
         {
-            try
-            {
                 _iInsuranceRepository.InsertNomination(nomination);
-            }
-            catch (Exception) { throw; }
-
         }
     }
 }

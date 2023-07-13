@@ -10,6 +10,6 @@ namespace DataAccessLayer.Contracts
     public interface IDoctorRepository
     {
         public Doctor AddDoctor(Doctor doctor);
-        public List<Doctor> GetDoctorDetails();
+        
     }
 }

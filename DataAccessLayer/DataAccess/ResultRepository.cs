@@ -22,12 +22,14 @@ namespace DataAccessLayer.DataAccess
         }
         public List<Report> ViewReport() {
             List<Report> reports = new List<Report>();
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            try
             {
-               connection.Open();
-                SqlCommand command = new SqlCommand("ViewReports", connection);
-                command.CommandType = CommandType.StoredProcedure;
-                using (SqlDataReader reader = command.ExecuteReader())
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+                    SqlCommand command = new SqlCommand("ViewReports", connection);
+                    command.CommandType = CommandType.StoredProcedure;
+                    using (SqlDataReader reader = command.ExecuteReader())
                     {
                         while (reader.Read())
                         {
@@ -49,9 +51,14 @@ namespace DataAccessLayer.DataAccess
                             reports.Add(report);
                         }
                     }
-                
+
+                }
+                return (reports);
             }
-            return (reports);
+            catch (Exception ex)
+            {
+                throw new Exception("An error has been occurred", ex);
+            }
 
         }
     }

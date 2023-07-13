@@ -21,13 +21,15 @@ namespace DataAccessLayer.DataAccess
         public List<string> GetPlanNames()
         {
             List<string> plan_names = new List<string>();
-            using (var connection = new SqlConnection(connectionString))
+            try
             {
-                connection.Open();
+                using (var connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
 
-                SqlCommand command = new SqlCommand("GetMedicareServiceNames", connection);
-                command.CommandType = CommandType.StoredProcedure;
-                
+                    SqlCommand command = new SqlCommand("GetMedicareServiceNames", connection);
+                    command.CommandType = CommandType.StoredProcedure;
+
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
                         while (reader.Read())
@@ -37,20 +39,27 @@ namespace DataAccessLayer.DataAccess
                         }
 
                     }
-                
-                
+
+
+                }
+                return plan_names;
             }
-            return plan_names;
+            catch (Exception ex)
+            {
+                throw new Exception("An error has been occurred", ex);
+            }
         }
         public List<medservice> GetPlanDetails(string planName)
         {
             List<medservice> plandetail = new List<medservice>();
-            using (var connection = new SqlConnection(connectionString))
+            try
             {
-                connection.Open();
-                SqlCommand command = new SqlCommand("GetMedicareServiceDetails", connection);
-                command.CommandType = CommandType.StoredProcedure;
-                command.Parameters.AddWithValue("@PlanName", planName);
+                using (var connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+                    SqlCommand command = new SqlCommand("GetMedicareServiceDetails", connection);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@PlanName", planName);
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
                         while (reader.Read())
@@ -61,13 +70,18 @@ namespace DataAccessLayer.DataAccess
                                 Service_Name = reader["Service_Name"].ToString(),
                                 Service_Features = reader["Service_Features"].ToString(),
                                 Service_Benefits = reader["Service_Benefits"].ToString(),
-                                Service_Parameters =reader["Service_Parameters"].ToString(),
+                                Service_Parameters = reader["Service_Parameters"].ToString(),
                             };
                             plandetail.Add(detail);
                         }
                     }
                     return plandetail;
-                
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("An error has been occurred", ex);
             }
         }
     }

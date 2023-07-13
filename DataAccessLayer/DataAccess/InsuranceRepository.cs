@@ -18,14 +18,16 @@ namespace DataAccessLayer.DataAccess
         public List<Agent> GetAgentDetails()
         {
             List<Agent> agents = new List<Agent>();
-            using (var connection = new SqlConnection(connectionString))
+            try
             {
-                connection.Open();
-                SqlCommand command = new SqlCommand("GetInsuranceAgent", connection);
-                command.CommandType = CommandType.StoredProcedure;
-                
-                    
-                    
+                using (var connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+                    SqlCommand command = new SqlCommand("GetInsuranceAgent", connection);
+                    command.CommandType = CommandType.StoredProcedure;
+
+
+
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
                         while (reader.Read())
@@ -35,7 +37,7 @@ namespace DataAccessLayer.DataAccess
                                 Agent_id = reader["Agent_Id"].ToString(),
                                 Agent_name = reader["Agent_name"].ToString(),
                                 Street_address = reader["Street_address"].ToString(),
-                                Mobile_number =reader["Mobile_number"].ToString(),
+                                Mobile_number = reader["Mobile_number"].ToString(),
                                 City = reader["City"].ToString(),
                                 State = reader["State"].ToString(),
                                 Pincode = Convert.ToInt32(reader["Pincode"])
@@ -44,17 +46,25 @@ namespace DataAccessLayer.DataAccess
                         }
                     }
                     return agents;
-                
+
+                }
+            }
+
+            catch(Exception ex) 
+            {
+                throw new Exception("And Error has been occured", ex);
             }
         }
         public void InsertNomination(Nomination nomination)
         {
-            using (var connection = new SqlConnection(connectionString))
+            try
             {
+                using (var connection = new SqlConnection(connectionString))
+                {
 
-                SqlCommand command = new SqlCommand("InsertNominationDetails", connection);
-                command.CommandType = CommandType.StoredProcedure;
-                
+                    SqlCommand command = new SqlCommand("InsertNominationDetails", connection);
+                    command.CommandType = CommandType.StoredProcedure;
+
                     command.Parameters.AddWithValue("@Name", nomination.Name);
                     command.Parameters.AddWithValue("@DOB", nomination.DOB);
                     command.Parameters.AddWithValue("@Email_id", nomination.Email_id);
@@ -67,7 +77,12 @@ namespace DataAccessLayer.DataAccess
 
                     connection.Open();
                     command.ExecuteNonQuery();
-                
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("An error has been occurred", ex);
             }
         }
 

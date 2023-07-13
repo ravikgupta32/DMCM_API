@@ -10,7 +10,7 @@ namespace BusinessAccessLayer.Services.doctor
     public interface IServiceDoctor 
     {
         public Doctor AddDoctor(Doctor doctor);
-        public List<Doctor> GetDoctorDetails();
+        
 
     }
 }

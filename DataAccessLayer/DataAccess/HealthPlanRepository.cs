@@ -15,36 +15,47 @@ namespace DataAccessLayer.DataAccess
             connectionString = configuration.GetConnectionString("DefaultConnection");
         }
         public List<string> GetPlanNames() {
-            List <string> plan_names = new List<string>();
-            using(var connection = new SqlConnection(connectionString))
-            {
-                connection.Open();
-                SqlCommand command = new SqlCommand("GetHealthPlanNames", connection);
-                command.CommandType = CommandType.StoredProcedure;
 
-                    using(SqlDataReader reader = command.ExecuteReader())
+            List <string> plan_names = new List<string>();
+            try
+            {
+                using (var connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+                    SqlCommand command = new SqlCommand("GetHealthPlanNames", connection);
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    using (SqlDataReader reader = command.ExecuteReader())
                     {
                         while (reader.Read())
                         {
                             string name = reader["HealthPlan_name"].ToString();
                             plan_names.Add(name);
                         }
-                       
-                    
+
+
+                    }
+                    return plan_names;
                 }
-                return plan_names;
+            } 
+            catch (Exception ex)
+            {
+                throw new Exception("An error has been occurred ",ex);
+
             }
         }
-        
+
         public List<HealthPlan> GetHealthPlanDetails(string PlanName)
         {
             List<HealthPlan> plandetail = new List<HealthPlan>();
-            using (var connection = new SqlConnection(connectionString))
+            try
             {
-                connection.Open();
-                SqlCommand command = new SqlCommand("GetHealthPlanDetails", connection);
-                command.CommandType = CommandType.StoredProcedure;
-                command.Parameters.AddWithValue("@PlanName", PlanName);  
+                using (var connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+                    SqlCommand command = new SqlCommand("GetHealthPlanDetails", connection);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@PlanName", PlanName);
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
                         while (reader.Read())
@@ -61,6 +72,11 @@ namespace DataAccessLayer.DataAccess
                     }
                     return plandetail;
                 }
+            }
+            catch (Exception  ex) 
+            {
+                throw new Exception("An error has been occured",ex);
+            }
             }
         
      

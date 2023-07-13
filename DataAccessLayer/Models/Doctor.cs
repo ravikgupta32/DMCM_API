@@ -38,7 +38,7 @@ namespace DataAccessLayer.Models
         public string? Specialization { get; set; }
 
         [Required(ErrorMessage = "Mobile Number is required.")]
-        [RegularExpression(@"^\d{10}$", ErrorMessage = "Mobile Number must be in int and 10 digits ")]
+        [RegularExpression(@"^\d{10}$", ErrorMessage = "Mobile Number must be 10 digits ")]
 
         public string? Mobile { get; set; }
     }

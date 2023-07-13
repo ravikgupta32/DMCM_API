@@ -32,7 +32,7 @@ namespace DataAccessLayer.Models
 
 
         [Required]
-        [DataType(DataType.PhoneNumber)]
+        [RegularExpression(@"^\d{10}$", ErrorMessage = "Mobile Number must be 10 digits ")]
         public string? PhoneNumber { get; set; }
 
         [Required]
