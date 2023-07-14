@@ -15,9 +15,15 @@ namespace BusinessAccessLayer.Services.doctor
         public ServiceDoctor(IDoctorRepository doctorrepository) { _idoctorrepository = doctorrepository; }
         public Doctor AddDoctor(Doctor doctor)
         {
-           
+            try
+            {
+
                 return _idoctorrepository.AddDoctor(doctor);
-           
+            }
+            catch (Exception)
+            {
+                throw;
+            }
 
 
 

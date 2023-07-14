@@ -18,15 +18,29 @@ namespace Diagonstic_Medicare_Centre_Managment.Controllers
         [Authorize(Roles = "Customer")]
         [HttpGet("/ServicesPlanNames")]
         
-        public List<string> GetPlanResult()
+        public IActionResult GetPlanResult()
         {
-            return _serviceMedicare.GetPlanNames();
+            try
+            {
+                return Ok( _serviceMedicare.GetPlanNames());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
         }
         [Authorize(Roles = "Customer")]
         [HttpGet("/ServicesPlanDetails")]
-        public List <medservice> GetPlanDetails(string planName) 
+        public IActionResult  GetPlanDetails(string planName) 
         {
-            return _serviceMedicare.GetPlanDetails(planName);
+            try
+            {
+                return Ok( _serviceMedicare.GetPlanDetails(planName));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
         }
     }
 }

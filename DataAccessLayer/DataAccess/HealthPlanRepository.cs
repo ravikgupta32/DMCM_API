@@ -40,7 +40,7 @@ namespace DataAccessLayer.DataAccess
             } 
             catch (Exception ex)
             {
-                throw new Exception("An error has been occurred ",ex);
+                throw new Exception("Error fetching plan names ",ex);
 
             }
         }

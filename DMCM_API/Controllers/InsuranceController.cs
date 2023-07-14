@@ -20,15 +20,30 @@ namespace Diagonstic_Medicare_Centre_Managment.Controllers
         }
         [Authorize(Roles = "Customer")]
         [HttpGet("/GetAgentDetails")]
-        public List<Agent> GetAgentDetails()
+        public IActionResult GetAgentDetails()
         {
-            return _serviceInsurance.GetAgentDetails(); 
+            try
+            {
+                return Ok(_serviceInsurance.GetAgentDetails());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
         }
         [Authorize(Roles = "Customer")]
         [HttpPost("/SubmitNominationDetails")]
-        public void SubmitNominationDetails(Nomination nomination) 
-        { 
-           _serviceInsurance.InsertNomination(nomination);
+        public IActionResult SubmitNominationDetails(Nomination nomination)
+        {
+            try
+            {
+                _serviceInsurance.InsertNomination(nomination);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
         }
     }
 }

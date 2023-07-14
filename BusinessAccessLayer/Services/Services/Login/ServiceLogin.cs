@@ -17,8 +17,10 @@ namespace BusinessAccessLayer.Services.Services.Login
 
         public string Authenticate(string userId, string password)
         {
+            try
+            {
                 // Verify the user from the users table
-                bool isUserValid = _iLoginRepository.VerifyUserInCustomerTable(userId,password)|| _iLoginRepository.VerifyUserInDoctorTable(userId,password);
+                bool isUserValid = _iLoginRepository.VerifyUserInCustomerTable(userId, password) || _iLoginRepository.VerifyUserInDoctorTable(userId, password);
 
                 if (!isUserValid)
                 {
@@ -29,7 +31,12 @@ namespace BusinessAccessLayer.Services.Services.Login
                 string token = _iLoginRepository.GenerateJwtToken(userId, role);
 
                 return token;
-            
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
 
         }
         

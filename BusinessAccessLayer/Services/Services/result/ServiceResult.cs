@@ -17,7 +17,14 @@ namespace BusinessAccessLayer.Services.result
         }
         public List<Report> ViewReport()
         {
-            return _iResultRepository.ViewReport().ToList();
+            try
+            {
+                return _iResultRepository.ViewReport().ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            } 
         }
     }
 }

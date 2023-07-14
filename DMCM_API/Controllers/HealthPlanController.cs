@@ -21,15 +21,30 @@ namespace Diagonstic_Medicare_Centre_Managment.Controllers
         }
         [Authorize(Roles = "Customer")]
         [HttpGet("/GetPlanNames")]
-        public List<string> GetPlanName()
+        public IActionResult GetPlanName()
         {
-            return _iHealthPlan.GetPlanNames();
-           
+            try
+            {
+                return Ok(_iHealthPlan.GetPlanNames());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+
         }
         [Authorize(Roles = "Customer")]
         [HttpGet("/GetPlanDetails")]
-        public List<HealthPlan> GetPlanDetails(string name) { 
-            return _iHealthPlan.GetHealthPlanDetails(name);
+        public IActionResult GetPlanDetails(string name)
+        {
+            try
+            {
+                return Ok(_iHealthPlan.GetHealthPlanDetails(name));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
         }
     }
 }

@@ -15,9 +15,15 @@ namespace Diagonstic_Medicare_Centre_Managment.Controllers
             _iServiceLogin = iServiceLogin;
         }
         [HttpPost("/Login")]
-        public string Login(Users user)
+        public IActionResult Login(Users user)
         {
-            return _iServiceLogin.Authenticate(user.Username, user.Password);
+            try
+            {
+                return Ok(_iServiceLogin.Authenticate(user.Username, user.Password));
+            }
+            catch (Exception ex) {
+                return BadRequest(ex);
+            }
         }
     }
 }

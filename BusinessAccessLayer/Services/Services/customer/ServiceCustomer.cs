@@ -19,9 +19,16 @@ namespace BusinessAccessLayer.Services.customer
 
         public string AddCustomer(Customer customer)
         {
-           
+            try
+            {
+
                 return _icustomerRepository.AddCustomer(customer);
-           
+            }
+
+            catch (Exception) 
+            {
+                throw;
+            }
         }
 
        

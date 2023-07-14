@@ -32,15 +32,29 @@ namespace Diagonstic_Medicare_Centre_Managment.Controllers
 
         [Authorize(Roles = "Customer")]
         [HttpPost("/SubmitCustomerDetails")]
-        public string SubmitCustomerDetails(Customer customer)
+        public IActionResult SubmitCustomerDetails(Customer customer)
         {
-            return _iServiceCustomer.AddCustomer(customer);
+            try
+            {
+                return Ok(_iServiceCustomer.AddCustomer(customer));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
         }
         [Authorize(Roles = "Doctor")]
         [HttpPost("/SubmitDoctorDetails")]
-        public Doctor SubmitDoctorDetails(Doctor doctor)
+        public IActionResult SubmitDoctorDetails(Doctor doctor)
         {
-            return _iDoctor.AddDoctor(doctor);
+            try
+            {
+                return Ok( _iDoctor.AddDoctor(doctor));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
         }
     }
 }

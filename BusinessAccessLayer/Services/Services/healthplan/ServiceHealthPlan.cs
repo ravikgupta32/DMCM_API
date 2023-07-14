@@ -18,14 +18,26 @@ namespace BusinessAccessLayer.Services.healthplan
 
         public List<string> GetPlanNames()
         {
-            
+            try
+            {
+
                 return _iHealthPlanRepository.GetPlanNames();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
         public List<HealthPlan> GetHealthPlanDetails(string PlanName) {
-           
+            try
+            {
                 return _iHealthPlanRepository.GetHealthPlanDetails(PlanName);
-            
-           
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }
