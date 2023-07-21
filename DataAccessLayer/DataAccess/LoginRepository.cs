@@ -6,6 +6,7 @@ using System.Text;
 using Microsoft.Extensions.Configuration;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using System.Data;
 
 namespace DataAccessLayer.DataAccess
 {
@@ -14,7 +15,7 @@ namespace DataAccessLayer.DataAccess
 
 
         public IConfiguration _config;
-        private readonly string connectionString;
+        private readonly string? connectionString;
         public LoginRepository(IConfiguration config) {
             _config = config;
             connectionString = _config.GetConnectionString("DefaultConnection");
@@ -27,20 +28,19 @@ namespace DataAccessLayer.DataAccess
             {
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
-                    connection.Open(); // Get the user role from the databasestring
-                    string query = "SELECT 'Customer' as Role FROM Customer_details WHERE User_Id = @UserId UNION ALL SELECT 'Doctor'  as Role from doctor_details where doctor_id = @UserId";
-                    using (SqlCommand command = new SqlCommand(query, connection))
-                    {
+                        connection.Open();
+                        SqlCommand command = new SqlCommand("GetRole", connection);
+                        command.CommandType = CommandType.StoredProcedure;
                         command.Parameters.AddWithValue("@UserId", userId);
                         string role = (string)command.ExecuteScalar();
                         return role;
-                    }
+                    
 
                 }
             }
-            catch (Exception ex)
+            catch (Exception )
             {
-                throw new Exception("An error has been occurred", ex);
+                throw;
             }
         }
 
@@ -53,22 +53,20 @@ namespace DataAccessLayer.DataAccess
                     connection.Open();
 
                     // Check if the user exists in the database
-                    string query = "SELECT COUNT(*) FROM Customer_details WHERE User_Id = @UserId AND Password = @Password";
-                    using (SqlCommand command = new SqlCommand(query, connection))
-                    {
+
+                        SqlCommand command = new SqlCommand("VerifyUserInCustomerTable", connection) ;
+                        command.CommandType = CommandType.StoredProcedure;
                         command.Parameters.AddWithValue("@UserId", userId);
                         command.Parameters.AddWithValue("@Password", password);
-
                         int count = (int)command.ExecuteScalar();
-
                         return count > 0;
-                    }
+                    
                 }
             }
-            catch (Exception ex)
+            catch (Exception )
 
             {
-                throw new Exception("An error has been occurred", ex);
+                throw;
             }
         }
 
@@ -79,9 +77,15 @@ namespace DataAccessLayer.DataAccess
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     connection.Open();
+                    SqlCommand command = new SqlCommand("VerifyUserInDoctorTable", connection);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@UserId", userId);
+                    command.Parameters.AddWithValue("@Password", password);
+                    int count = (int)command.ExecuteScalar();
+                    return count > 0;
 
                     // Check if the user exists in the database
-                    string query = "SELECT COUNT(*) FROM doctor_details WHERE doctor_id = @UserId AND Password = @Password";
+                    /*string query = "SELECT COUNT(*) FROM doctor_details WHERE doctor_id = @UserId AND Password = @Password";
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
                         command.Parameters.AddWithValue("@UserId", userId);
@@ -90,12 +94,12 @@ namespace DataAccessLayer.DataAccess
                         int count = (int)command.ExecuteScalar();
 
                         return count > 0;
-                    }
+                    }*/
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw new Exception("An error has been occurred", ex);
+                throw;
             }
 
         }
@@ -118,9 +122,9 @@ namespace DataAccessLayer.DataAccess
                 return new JwtSecurityTokenHandler().WriteToken(token);
             }
 
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw new Exception("An error has been occurred", ex);
+                throw;
             }
 
 

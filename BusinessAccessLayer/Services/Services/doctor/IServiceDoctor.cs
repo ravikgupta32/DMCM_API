@@ -9,7 +9,7 @@ namespace BusinessAccessLayer.Services.doctor
 {
     public interface IServiceDoctor 
     {
-        public Doctor AddDoctor(Doctor doctor);
+        public string AddDoctor(Doctor doctor);
         
 
     }

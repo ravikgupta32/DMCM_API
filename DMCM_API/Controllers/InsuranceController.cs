@@ -28,7 +28,7 @@ namespace Diagonstic_Medicare_Centre_Managment.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                return BadRequest(ex.Message);
             }
         }
         [Authorize(Roles = "Customer")]
@@ -42,7 +42,9 @@ namespace Diagonstic_Medicare_Centre_Managment.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                if (ex.Message.Contains("Violation of PRIMARY KEY constraint "))
+                    return BadRequest("Data already exists ");
+                return BadRequest(ex.Message);
             }
         }
     }

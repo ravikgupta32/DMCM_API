@@ -39,8 +39,11 @@ namespace Diagonstic_Medicare_Centre_Managment.Controllers
                 return Ok(_iServiceCustomer.AddCustomer(customer));
             }
             catch (Exception ex)
+
             {
-                return BadRequest(ex);
+                if(ex.Message.Contains("Violation of PRIMARY KEY constraint "))
+                    return BadRequest("Data already exists kindly try with different customer id.");
+                return BadRequest(ex.Message);
             }
         }
         [Authorize(Roles = "Doctor")]
@@ -53,7 +56,9 @@ namespace Diagonstic_Medicare_Centre_Managment.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                if(ex.Message.Contains("Violation of PRIMARY KEY constraint "))
+                    return BadRequest("Data already exists kindly try with different doctor id.");
+                return BadRequest(ex.Message);
             }
         }
     }

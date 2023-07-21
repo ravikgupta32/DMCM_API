@@ -18,7 +18,7 @@ namespace DataAccessLayer.DataAccess
         }
         
             
-        public Doctor AddDoctor(Doctor doctor) {
+        public string AddDoctor(Doctor doctor) {
             try
             {
                 using (SqlConnection connection = new SqlConnection(connectionString))
@@ -37,11 +37,11 @@ namespace DataAccessLayer.DataAccess
 
                     command.ExecuteNonQuery();
                 }
-                return doctor;
+                return "Doctor added";
             }
-            catch (Exception ex)
+            catch (Exception )
             {
-                throw new Exception("An Error has been occurred ", ex);
+                throw;
                     
             }
 

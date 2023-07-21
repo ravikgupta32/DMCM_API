@@ -13,7 +13,7 @@ namespace BusinessAccessLayer.Services.doctor
     {
         public readonly IDoctorRepository _idoctorrepository;
         public ServiceDoctor(IDoctorRepository doctorrepository) { _idoctorrepository = doctorrepository; }
-        public Doctor AddDoctor(Doctor doctor)
+        public string AddDoctor(Doctor doctor)
         {
             try
             {

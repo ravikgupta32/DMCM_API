@@ -12,7 +12,7 @@ namespace DataAccessLayer.DataAccess
 {
     public class MedicareServiceRepository:IMedicareServiceRepository
     {
-        private readonly string connectionString;
+        private readonly string? connectionString;
 
         public MedicareServiceRepository(IConfiguration configuration) 
         {
@@ -30,7 +30,7 @@ namespace DataAccessLayer.DataAccess
                     SqlCommand command = new SqlCommand("GetMedicareServiceNames", connection);
                     command.CommandType = CommandType.StoredProcedure;
 
-                    using (SqlDataReader reader = command.ExecuteReader())
+                    using (SqlDataReader? reader = command.ExecuteReader())
                     {
                         while (reader.Read())
                         {
@@ -44,9 +44,9 @@ namespace DataAccessLayer.DataAccess
                 }
                 return plan_names;
             }
-            catch (Exception ex)
+            catch (Exception )
             {
-                throw new Exception("An error has been occurred", ex);
+                throw;
             }
         }
         public List<medservice> GetPlanDetails(string planName)
@@ -81,7 +81,7 @@ namespace DataAccessLayer.DataAccess
             }
             catch (Exception ex)
             {
-                throw new Exception("An error has been occurred", ex);
+                throw;
             }
         }
     }

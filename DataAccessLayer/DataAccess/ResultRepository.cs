@@ -55,9 +55,9 @@ namespace DataAccessLayer.DataAccess
                 }
                 return (reports);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw new Exception("An error has been occurred", ex);
+                throw;
             }
 
         }

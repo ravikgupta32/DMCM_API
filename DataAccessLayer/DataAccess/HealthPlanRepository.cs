@@ -38,9 +38,9 @@ namespace DataAccessLayer.DataAccess
                     return plan_names;
                 }
             } 
-            catch (Exception ex)
+            catch (Exception )
             {
-                throw new Exception("Error fetching plan names ",ex);
+                throw;
 
             }
         }
@@ -73,9 +73,9 @@ namespace DataAccessLayer.DataAccess
                     return plandetail;
                 }
             }
-            catch (Exception  ex) 
+            catch (Exception) 
             {
-                throw new Exception("An error has been occured",ex);
+                throw;
             }
             }
         

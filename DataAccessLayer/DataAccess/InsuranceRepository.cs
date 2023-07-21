@@ -9,7 +9,7 @@ namespace DataAccessLayer.DataAccess
 {
     public class InsuranceRepository:IInsuranceRepository
     {
-        private readonly string connectionString;
+        private readonly string? connectionString;
         public InsuranceRepository(IConfiguration configuration) 
         {
             connectionString = configuration.GetConnectionString("DefaultConnection");
@@ -80,9 +80,9 @@ namespace DataAccessLayer.DataAccess
 
                 }
             }
-            catch (Exception ex)
+            catch (Exception )
             {
-                throw new Exception("An error has been occurred", ex);
+                throw;
             }
         }
 

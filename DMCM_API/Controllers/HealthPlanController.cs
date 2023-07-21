@@ -29,7 +29,7 @@ namespace Diagonstic_Medicare_Centre_Managment.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                return BadRequest(ex.Message);
             }
 
         }
@@ -43,7 +43,7 @@ namespace Diagonstic_Medicare_Centre_Managment.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                return BadRequest(ex.Message);
             }
         }
     }

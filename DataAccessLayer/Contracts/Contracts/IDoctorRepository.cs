@@ -9,7 +9,7 @@ namespace DataAccessLayer.Contracts
 {
     public interface IDoctorRepository
     {
-        public Doctor AddDoctor(Doctor doctor);
+        public string AddDoctor(Doctor doctor);
         
     }
 }

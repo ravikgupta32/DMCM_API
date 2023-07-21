@@ -42,9 +42,9 @@ namespace DataAccessLayer.DataAccess
                 return "Added customer successfully";
             }
 
-            catch (Exception ex)
+            catch (Exception )
             {
-                return ("An error has been occured "+ex.Message);
+                throw;
             }
         }
         
